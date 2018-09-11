@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class EightPuzzleSolver {
 
     private static Node goalNode = null;
-    static final String GOAL_STATE = "123456780";
+    static final String GOAL_STATE = "012345678";
     private static final int SOLUTION = 0;
     private static final int FAILURE = 1;
     private static final int DOWN = 0;

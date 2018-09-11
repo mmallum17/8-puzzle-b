@@ -1,4 +1,5 @@
 import java.util.LinkedList;
+import java.util.Scanner;
 
 /**
  * Created by Marcus on 9/9/2018.
@@ -6,7 +7,7 @@ import java.util.LinkedList;
 public class EightPuzzleSolver {
 
     private static Node goalNode = null;
-    static final String GOAL_STATE = "012345678";
+    static final String GOAL_STATE = "123456780";
     private static final int SOLUTION = 0;
     private static final int FAILURE = 1;
     private static final int DOWN = 0;
@@ -16,15 +17,51 @@ public class EightPuzzleSolver {
     private static LinkedList<String> exploredStates = new LinkedList<String>();
 
     public static void main(String[] args) {
-        String initialState = "142358670";
-        int result = aStarSearch(initialState);
-        System.out.println(result);
-        if(result == SOLUTION) {
-            displayPath(goalNode);
+        String initialState = getInitialState();
+        boolean validInitialState = validateInitialState(initialState);
+
+        // If initial state is valid, solve the puzzle. Else, end program
+        if(validInitialState) {
+            System.out.println("Goal State is " + GOAL_STATE);
+
+            int result = aStarSearch(initialState);
+
+            // If result is solvable, print out the path. Else, display "No solution"
+            if(result == SOLUTION) {
+                System.out.print("Solution: ");
+                displayPath(goalNode);
+            }
+            else {
+                System.out.println("No Solution");
+            }
         }
-//        if(goalNode != null) {
-//            System.out.println(goalNode.state);
-//        }
+        else {
+            System.out.println("Input for the initial state is invalid");
+        }
+    }
+
+    private static String getInitialState() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Please enter in the initial state (Ex: '013254687'): ");
+        String input = scanner.nextLine();
+
+        return input;
+    }
+
+    private static boolean validateInitialState(String initialState) {
+        boolean valid = true;
+        if(initialState.length() != 9) {
+            valid = false;
+        }
+        else {
+            for(int i = 0; i <= 8; i++) {
+                if(!initialState.contains(Integer.toString(i))) {
+                    valid = false;
+                }
+            }
+        }
+        return valid;
     }
 
     private static int aStarSearch(String initialState) {
